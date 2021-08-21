@@ -1,0 +1,33 @@
+pool: ec2-agents
+trigger:
+  branches:
+    include:
+    - main
+variables:
+- group: aws_credentials
+stages:
+- stage: terraform
+  displayName: Init Terraform 
+  jobs:
+  - job: terraform 
+    container: 
+      image:  mohamedhani/terraform
+      env:
+        AWS_ACCESS_KEY_ID: $(aws_access_key_id) 
+        AWS_SECRET_ACCESS_KEY: $(aws_secret_access_key)
+        AWS_DEFAULT_REGION : "us-east-1"
+        TF_VAR_PROJECT_NAME: "devops-task"
+    steps:  
+    - task: TerraformCLI@0
+      displayName: Terraform Init
+      inputs:
+        command: init
+    - task: TerraformCLI@0
+      displayName: Terraform Plan
+      inputs:
+        command: plan
+    - task: TerraformCLI@0
+      displayName: Terraform Apply
+      inputs:
+        command: apply
+ 
