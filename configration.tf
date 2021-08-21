@@ -18,7 +18,6 @@ terraform {
 }
 
 provider "aws" {
-  profile = "default"
   default_tags {
     tags = {
     env = "prod"
@@ -26,6 +25,5 @@ provider "aws" {
     }
   }
 }
-
 provider "null" { 
 }
