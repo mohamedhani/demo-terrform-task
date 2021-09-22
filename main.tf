@@ -1,3 +1,4 @@
+
 module "private_vpc"{
    source = "./modules/vpc"
    project_name = var.project_name
@@ -21,5 +22,9 @@ module "eks"{
         disk_size = 20
         instance_types = ["t3.medium"]
     }
+    depends_on= [
+        module.private_vpc
+    ]
 }
+
 

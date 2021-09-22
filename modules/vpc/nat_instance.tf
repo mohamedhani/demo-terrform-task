@@ -1,6 +1,6 @@
 resource "aws_key_pair" "my_key" {
   key_name = "${var.project_name}-key"
-  public_key = file("./modules/vpc/iti_key.pub")
+  public_key = file("./test_key.pub")
 }
 
 resource "aws_instance" "nat_instances" {

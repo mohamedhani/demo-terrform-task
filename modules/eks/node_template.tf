@@ -9,6 +9,8 @@ resource "aws_launch_template" "worker_node_template" {
     ebs {
       volume_size = var.node_group.disk_size
     }
+    
   }
+ 
  
 }

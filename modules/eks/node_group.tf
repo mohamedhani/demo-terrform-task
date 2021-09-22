@@ -1,8 +1,5 @@
 
 
-# create group node policy to role association 
-
-
 resource "aws_eks_node_group" "eks_node_group"{
     cluster_name = aws_eks_cluster.main_cluster.name
 
@@ -19,7 +16,7 @@ resource "aws_eks_node_group" "eks_node_group"{
     instance_types = var.node_group.instance_types
     launch_template {
       id = aws_launch_template.worker_node_template.id
-      version = "$Latest"
+      version = "1"
     }
 
    lifecycle {
