@@ -25,10 +25,10 @@ resource "aws_security_group" "eks_cluster_sg"{
 
 # this component used to add the lb ingress to 
 resource "aws_security_group" "node_group_lb_sg"{
-         name  = "${var.project_name}-default-node-group-sg-for-lb"
+         name  = "${var.project_name}-node-group-sg-for-lb"
         vpc_id = data.aws_vpc.main_vpc.id # get vpc id from data
          tags={
-            "Name"="${var.project_name}-default-node-group-sg-for-lb"
+            "Name"="${var.project_name}-node-group-sg-for-lb"
            "kubernetes.io/cluster/${var.project_name}-eks-cluster"="owned"
         }
 }
@@ -60,7 +60,7 @@ resource "aws_security_group" "node_worker_group_sg" {
         from_port        =   1025
         to_port          =   65535
         protocol         = "TCP"
-        security_groups =    [aws_security_group.default_node_group_sg.id]
+        security_groups =    [aws_security_group.node_group_lb_sg.id]
      }
      
      egress{
