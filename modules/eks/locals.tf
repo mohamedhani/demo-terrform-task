@@ -5,5 +5,5 @@ locals {
       "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" ,
       "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   ]
-  istio_ports = ["15010","15012","15017","15014"]
+#  istio_ports = ["15010","15012","15017","15014"]
 }

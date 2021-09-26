@@ -12,34 +12,23 @@ resource "aws_security_group" "eks_cluster_sg"{
       cidr_blocks      = [data.aws_vpc.main_vpc.cidr_block]
      }
   
-
+  # Allow Traffic to Node Group
   egress   {
-      description = "allow traffic only to vpc nodes"
-      from_port        = 10250
-      to_port          = 10250
+      description = "Node Group Traffic Only"
+      from_port        = 1025
+      to_port          = 65535
       protocol         = "tcp"
       cidr_blocks      = [data.aws_vpc.main_vpc.cidr_block]  # get vpc_cidr from the datasource
     }
-# allow connection to istio ports
- dynamic "egress" {
-    for_each = local.istio_ports
-    content {
-      from_port        = egress.value
-      to_port          = egress.value
-      protocol         = "tcp"
-      cidr_blocks      = [data.aws_vpc.main_vpc.cidr_block]  # get vpc_cidr from the datasource
 
-    }
- }
-    
 }
 
 # this component used to add the lb ingress to 
-resource "aws_security_group" "default_node_group_sg"{
-         name  = "${var.project_name}-default-node-group-sg"
+resource "aws_security_group" "node_group_lb_sg"{
+         name  = "${var.project_name}-default-node-group-sg-for-lb"
         vpc_id = data.aws_vpc.main_vpc.id # get vpc id from data
          tags={
-           
+            "Name"="${var.project_name}-default-node-group-sg-for-lb"
            "kubernetes.io/cluster/${var.project_name}-eks-cluster"="owned"
         }
 }
@@ -52,40 +41,28 @@ resource "aws_security_group" "node_worker_group_sg" {
   
      ingress {
       description      = "allow traffic for from the controller panel"
-      from_port        =  10250
-      to_port          =  10250
+      from_port        =  1025
+      to_port          =  65535
       protocol         = "tcp"
       security_groups = [aws_security_group.eks_cluster_sg.id]
      }
+
+     ingress {
+      description      = "allow traffic for from the controller panel"
+      from_port        =  443
+      to_port          =  443
+      protocol         = "tcp"
+      security_groups = [aws_security_group.eks_cluster_sg.id]
+     }
+
      ingress {
         description      = "allow inter nodes traffic"
-        from_port        =   0
-        to_port          =   0
-        protocol         = "-1"
+        from_port        =   1025
+        to_port          =   65535
+        protocol         = "TCP"
         security_groups =    [aws_security_group.default_node_group_sg.id]
      }
-   dynamic "ingress" {
-        for_each = local.istio_ports
-        content {
-            description      = "allow traffic for from the controller panel"
-            from_port        =  ingress.value
-            to_port          =  ingress.value
-            protocol         = "tcp"
-            security_groups = [aws_security_group.eks_cluster_sg.id]
-
-        }
-     }
-
-
-     # allow controll plane to connect to istio ports
-
-      egress{
-        description      = "allow traffic to controll plane"
-        from_port        =  443
-        to_port          =  443
-        protocol         = "tcp"
-        security_groups = [aws_security_group.eks_cluster_sg.id]  
-     }
+     
      egress{
         description      = "allow traffic to the inernet" 
         from_port        =  0
