@@ -6,6 +6,6 @@ locals {
       "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   ]
 #  lb_controller_service_account_name = "aws-load-balancer"
-  oidc_url = split("https://", aws_eks_cluster.main_eks_cluster.identity[0].oidc[0].issuer)[1]
+  oidc_url = split("https://", aws_eks_cluster.main_cluster.identity[0].oidc[0].issuer)[1]
 #  istio_ports = ["15010","15012","15017","15014"]
 }
