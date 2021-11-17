@@ -10,11 +10,6 @@ stages:
   displayName: Init Terraform 
   jobs:
   - job: terraform 
-    variables:
-      AWS_ACCESS_KEY_ID: $(aws_access_key_id) 
-      AWS_SECRET_ACCESS_KEY: $(aws_secret_access_key)
-      AWS_DEFAULT_REGION : "us-east-1"
-      TF_VAR_project_name: "task"
     steps:  
     - task: TerraformCLI@0
       displayName: Terraform Init
@@ -28,3 +23,9 @@ stages:
       displayName: Terraform Apply
       inputs:
         command: apply
+      env:
+        AWS_ACCESS_KEY_ID: $(aws_access_key_id) 
+        AWS_SECRET_ACCESS_KEY: $(aws_secret_access_key)
+        AWS_DEFAULT_REGION : "us-east-1"
+        TF_VAR_project_name: "task"
+        
