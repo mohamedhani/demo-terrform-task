@@ -15,7 +15,7 @@ resource "aws_security_group" "eks_cluster_sg"{
   # Allow Traffic to Node Group
   egress   {
       description = "Node Group Traffic Only"
-      from_port        = 1025
+      from_port        =  1025
       to_port          = 65535
       protocol         = "tcp"
       cidr_blocks      = [data.aws_vpc.main_vpc.cidr_block]  # get vpc_cidr from the datasource
@@ -48,7 +48,7 @@ resource "aws_security_group" "node_worker_group_sg" {
      }
 
      ingress {
-      description      = "allow traffic for from the controller panel"
+      description      = "allow https traffic from control panel"
       from_port        =  443
       to_port          =  443
       protocol         = "tcp"
@@ -56,10 +56,10 @@ resource "aws_security_group" "node_worker_group_sg" {
      }
 
      ingress {
-        description      = "allow inter nodes traffic"
-        from_port        =   1025
-        to_port          =   65535
-        protocol         = "TCP"
+        description      = "allow intera nodes traffic"
+        from_port        =   0
+        to_port          =   0
+        protocol         = "-1"
         security_groups =    [aws_security_group.node_group_lb_sg.id]
      }
      

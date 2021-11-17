@@ -11,7 +11,7 @@ output "nat_instnace" {
 }
 module "eks"{
     source ="./modules/eks"
-    k8s_version="1.18"
+    k8s_version= var.k8s_version
     project_name = var.project_name
     vpc_id= module.private_vpc.vpc_id
     vpc_private_subnets_ids = module.private_vpc.private_subnets_id
