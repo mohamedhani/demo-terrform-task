@@ -87,6 +87,6 @@ resource "aws_iam_role_policy" "lb_controller_iam_policy_attachment" {
   name = "LoadBalancerControllerPolicy"
   count = var.enable_lb_controller ? 1 : 0 
   role = aws_iam_role.lb_controller_role[0].id
-  policy = file("./modules/eks/lb_iam_policy.json")
+  policy = file("./modules/eks/lb_iam_role.json")
   
 }
