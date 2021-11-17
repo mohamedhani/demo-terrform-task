@@ -68,7 +68,7 @@ resource "aws_iam_role" "lb_controller_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "${aws_iam_openid_connect_provider.eks_cluster_oidc.arn}"
+        "Federated": "${aws_iam_openid_connect_provider.eks_cluster_oidc[0].arn}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
