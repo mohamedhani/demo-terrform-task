@@ -25,3 +25,12 @@ variable "node_group" {
     })
 }
 
+
+variable "enable_lb_controller" {
+    type = bool
+    default = false
+ }
+ variable "lb_controller_service_account_name" {
+     type = string
+   
+ }

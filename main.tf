@@ -22,6 +22,8 @@ module "eks"{
         disk_size = 20
         instance_types = ["t3.medium"]
     }
+    enable_lb_controller = true
+    lb_controller_service_account_name= "aws-load-balancer"
     depends_on= [
         module.private_vpc
     ]
