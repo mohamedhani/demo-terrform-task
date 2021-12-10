@@ -29,8 +29,24 @@ variable "node_group" {
 variable "enable_lb_controller" {
     type = bool
     default = false
- }
- variable "lb_controller_service_account_name" {
-     type = string
-   
- }
+}
+
+variable "lb_controller" {
+     type = object({
+         service_account_name = string
+         namespace = string
+     })   
+}
+
+variable "cluster_autoscaller" {
+     type = object({
+         service_account_name = string
+         namespace = string
+     })   
+}
+
+variable "enable_cluter_autoscaller"{
+type = bool
+default = false
+
+}

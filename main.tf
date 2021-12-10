@@ -22,11 +22,20 @@ module "eks"{
         disk_size = 20
         instance_types = ["t3.medium"]
     }
+
     enable_lb_controller = true
-    lb_controller_service_account_name= "aws-load-balancer"
+    lb_controller = {
+        service_account_name = "aws-load-balancer"
+        namespace = "lb-controller"
+    }
+
+    enable_cluter_autoscaller = true
+    cluster_autoscaller = {
+          service_account_name = "aws-cluster-autoscaller-sa"
+          namespace ="autoscaler"
+    }
     depends_on= [
         module.private_vpc
     ]
 }
-
-
+    
