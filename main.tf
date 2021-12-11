@@ -38,4 +38,11 @@ module "eks"{
         module.private_vpc
     ]
 }
+module "efs" {
+    source = "./modules/efs"
+    vpc_private_subnets_ids = module.private_vpc.private_subnets_id
+    project_name = var.project_name
+    node_group_efs_sg_id = module.eks.efs_sg_id
+     
+}
     

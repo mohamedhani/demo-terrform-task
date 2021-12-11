@@ -34,6 +34,17 @@ resource "aws_security_group" "node_group_lb_sg"{
 }
 
 
+# this component used to add the lb ingress to 
+resource "aws_security_group" "node_group_efs_sg"{
+         name  = "${var.project_name}-node-group-sg-for-efs"
+        vpc_id = data.aws_vpc.main_vpc.id # get vpc id from data
+         tags={
+            "Name"="${var.project_name}-node-group-sg-for-efs"
+        }
+}
+
+
+
 
 resource "aws_security_group" "node_worker_group_sg" {
      name  = "${var.project_name}-worker-node-group-sg"
