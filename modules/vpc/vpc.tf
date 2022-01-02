@@ -12,8 +12,7 @@ resource "aws_internet_gateway" "main_igw" {
     vpc_id = aws_vpc.main.id
     tags = {
       "Name" = "${var.project_name}-igw"
-    }
-  
+    }  
 }
 
 
@@ -28,6 +27,7 @@ resource "aws_subnet" "private_subnets" {
       "kubernetes.io/role/internal-elb" = "1"
       "kubernetes.io/cluster/${var.project_name}-eks-cluster"="shared"
     }
+  
 }
 resource "aws_subnet" "public_subnets" {
   
